@@ -831,8 +831,18 @@ if (saveThemeTypeBtn) {
         try {
             const data = { uid: currentUser.uid, name, iconClass: icon, postitColor: color };
             if (id) {
+                // Atualiza um tipo de tema existente.
                 await db.collection("userDefinedThemeTypes").doc(id).update(data);
             } else {
+                // Cria um novo tipo de tema, garantindo que ele tenha uma ordem.
+                let maxOrder = -1;
+                if (currentUserThemeTypesArray && currentUserThemeTypesArray.length > 0) {
+                    const orders = currentUserThemeTypesArray.map(t => typeof t.order === 'number' ? t.order : -1);
+                    if (orders.length > 0) {
+                        maxOrder = Math.max(...orders.filter(o => o !== -1), -1);
+                    }
+                }
+                data.order = maxOrder + 1;
                 data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
                 await db.collection("userDefinedThemeTypes").add(data);
             }

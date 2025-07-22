@@ -282,8 +282,31 @@
 
 #managePersonalTabsModalOverlay .add-btn,
 #manageThemeTypesModalOverlay .add-btn {
-    margin-bottom: 20px;
     width: 100%;
+    padding: 12px 20px;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Courier Prime', monospace;
+    text-transform: uppercase;
+    justify-content: center;
+    background: #633b06;
+    color: white;
+    margin-bottom: 20px;
+}
+
+#managePersonalTabsModalOverlay .add-btn:hover,
+#manageThemeTypesModalOverlay .add-btn:hover {
+    background: #633b0680;
+    color: #633b06;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(34, 139, 34, 0.3);
 }
 
 .modal-action-btn {
