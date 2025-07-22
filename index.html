@@ -207,6 +207,25 @@ Estrutura Geral:
     <div class="modal-container" style="max-width:600px;"><div class="modal-header"><span id="manageSubthemesModalTitle"><i class="fas fa-stream"></i> Gerenciar Subtemas</span><button class="modal-close-btn" onclick="closeManageSubthemesModal()"><i class="fas fa-times"></i></button></div><div class="modal-content"><div class="add-item-form"><input type="text" id="newSubthemeNameInput" placeholder="Nome do novo subtema..."><button id="addSubthemeBtn"><i class="fas fa-plus"></i> Adicionar</button></div><div id="subthemesListContainer"><p>Carregando...</p></div><div class="modal-button-group" style="margin-top:20px;"><button onclick="closeManageSubthemesModal()" class="cancel-btn" style="flex-grow:0.5;">Fechar</button></div></div></div>
   </div>
 
+  <!-- Modal: Editar Nome do Subtema -->
+  <div id="editSubthemeModalOverlay" class="modal-overlay">
+    <div class="modal-container" style="max-width:500px;">
+      <div class="modal-header">
+        <span id="editSubthemeModalTitle"><i class="fas fa-edit"></i> Editar Nome do Subtema</span>
+        <button class="modal-close-btn" onclick="closeEditSubthemeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-content">
+        <input type="hidden" id="editingSubthemeId" value="">
+        <label for="editSubthemeNameInput">Novo nome:</label>
+        <input type="text" id="editSubthemeNameInput" placeholder="Digite o novo nome...">
+        <div class="modal-button-group">
+          <button onclick="closeEditSubthemeModal()" class="cancel-btn"><i class="fas fa-times"></i> Cancelar</button>
+          <button id="saveSubthemeNameBtn" class="add-btn"><i class="fas fa-save"></i> Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal: Editar/Adicionar Tipo de Tema -->
   <div id="themeTypeEditModalOverlay" class="modal-overlay">
     <div class="modal-container" style="max-width:500px;"><div class="modal-header"><span id="themeTypeEditModalTitle">Adicionar Tipo de Tema</span><button class="modal-close-btn" onclick="closeThemeTypeEditModal()"><i class="fas fa-times"></i></button></div><div class="modal-content"><input type="hidden" id="editingThemeTypeId" value=""><label for="themeTypeNameInput">Nome do Tipo de Tema:</label><input type="text" id="themeTypeNameInput" placeholder="Ex: Receitas, Projetos Fitness"><label>Ícone:</label><div id="themeTypeIconGrid"></div><input type="hidden" id="selectedThemeTypeIcon" value="fa-folder"><label>Cor dos Post-its:</label><div id="themeTypeColorPalette"></div><input type="hidden" id="selectedThemeTypeColor" value="default-yellow"><div class="modal-button-group"><button onclick="closeThemeTypeEditModal()" class="cancel-btn"><i class="fas fa-times"></i> Cancelar</button><button id="saveThemeTypeBtn" class="add-btn"><i class="fas fa-save"></i> Salvar Tipo</button></div></div></div>

@@ -57,6 +57,10 @@ const selectedThemeTypeIconInput = document.getElementById('selectedThemeTypeIco
 const themeTypeColorPalette = document.getElementById('themeTypeColorPalette');
 const selectedThemeTypeColorInput = document.getElementById('selectedThemeTypeColor');
 const saveThemeTypeBtn = document.getElementById('saveThemeTypeBtn');
+const editSubthemeModalOverlay = document.getElementById('editSubthemeModalOverlay');
+const editSubthemeNameInput = document.getElementById('editSubthemeNameInput');
+const editingSubthemeIdInput = document.getElementById('editingSubthemeId');
+const saveSubthemeNameBtn = document.getElementById('saveSubthemeNameBtn');
 
 
 // ===================================================================================
