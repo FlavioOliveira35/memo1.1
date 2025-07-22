@@ -395,7 +395,6 @@ async function confirmDeletePersonalTab(tabId, tabName) {
                     if (managePersonalTabsBtn) managePersonalTabsBtn.style.display = 'flex';
                 }
             }
-            alert(`Aba "${tabName}" excluída.`);
         } catch (e) {
             console.error("Erro ao excluir aba:", e);
             alert("Erro ao excluir a aba.");
@@ -693,23 +692,60 @@ async function handleAddNewSubtheme() {
  * @param {string} currentName - O nome atual, para preencher o prompt.
  */
 function editSubthemeName(id, currentName) {
-    const newName = prompt(`Editar nome do subtema:`, currentName);
-    if (newName && newName.trim() !== '' && newName.trim() !== currentName) {
-        db.collection("userThemes").doc(id).update({ themeName: newName.trim() })
-            .then(() => {
-                populateSubthemesList();
-                buildSecondaryNavbar(currentManagingThemeTypeId);
-                // Se o tema editado for o que está ativo, atualiza a UI.
-                if (currentThemeInfo && currentThemeInfo.id === id) {
-                    selectTheme(id, currentManagingThemeTypeId, newName.trim());
-                }
-            })
-            .catch(error => {
-                console.error("Erro ao atualizar nome do subtema:", error);
-                alert("Erro ao atualizar o nome.");
-            });
+    openEditSubthemeModal(id, currentName);
+}
+
+function openEditSubthemeModal(id, currentName) {
+    if (!editSubthemeModalOverlay) return;
+    editingSubthemeIdInput.value = id;
+    editSubthemeNameInput.value = currentName;
+    editSubthemeModalOverlay.classList.add('active');
+    editSubthemeNameInput.focus();
+}
+
+function closeEditSubthemeModal() {
+    if (editSubthemeModalOverlay) {
+        editSubthemeModalOverlay.classList.remove('active');
+        editingSubthemeIdInput.value = '';
+        editSubthemeNameInput.value = '';
     }
 }
+
+async function saveSubthemeName() {
+    const id = editingSubthemeIdInput.value;
+    const newName = editSubthemeNameInput.value.trim();
+
+    if (!id || !newName) {
+        alert("O nome não pode estar vazio.");
+        return;
+    }
+
+    saveSubthemeNameBtn.disabled = true;
+    saveSubthemeNameBtn.innerHTML = '<div class="loading-small"></div> Salvando...';
+
+    try {
+        await db.collection("userThemes").doc(id).update({ themeName: newName });
+
+        // Atualiza a UI
+        await populateSubthemesList();
+        buildSecondaryNavbar(currentManagingThemeTypeId);
+
+        // Se o tema editado for o que está ativo, atualiza o título.
+        if (currentThemeInfo && currentThemeInfo.id === id) {
+            selectTheme(id, currentManagingThemeTypeId, newName);
+        }
+
+        closeEditSubthemeModal();
+
+    } catch (error) {
+        console.error("Erro ao atualizar nome do subtema:", error);
+        alert("Erro ao atualizar o nome.");
+    } finally {
+        saveSubthemeNameBtn.disabled = false;
+        saveSubthemeNameBtn.innerHTML = '<i class="fas fa-save"></i> Salvar';
+    }
+}
+
 
 // -----------------------------------------------------------------------------------
 // Seção: Modais e Lógica para Gerenciar os "Tipos de Tema"
@@ -949,7 +985,6 @@ async function confirmDeleteThemeType(themeTypeId, themeTypeName) {
                 return;
             }
             await db.collection("userDefinedThemeTypes").doc(themeTypeId).delete();
-            alert(`Tipo "${themeTypeName}" excluído.`);
             await loadUserDefinedThemeTypes();
             populateThemeTypesList();
             populateNewCategoryDropdown();
@@ -980,3 +1015,12 @@ if (savePersonalTabBtn) savePersonalTabBtn.addEventListener('click', savePersona
 if (manageSubthemesModalOverlay) manageSubthemesModalOverlay.addEventListener('click', function(event) { if (event.target === manageSubthemesModalOverlay) closeManageSubthemesModal(); });
 if (addSubthemeBtn) addSubthemeBtn.addEventListener('click', handleAddNewSubtheme);
 if (newSubthemeNameInput) newSubthemeNameInput.addEventListener('keydown', function(event) { if (event.key === 'Enter') handleAddNewSubtheme(); });
+
+if (editSubthemeModalOverlay) {
+    editSubthemeModalOverlay.addEventListener('click', function(event) {
+        if (event.target === editSubthemeModalOverlay) {
+            closeEditSubthemeModal();
+        }
+    });
+}
+if (saveSubthemeNameBtn) saveSubthemeNameBtn.addEventListener('click', saveSubthemeName);
