@@ -397,6 +397,8 @@
     margin-bottom: 15px;
     position: relative;
     z-index: 1;
+    max-height: 150px;
+    overflow-y: auto;
 }
 
 #themeTypeIconGrid > div, #personalTabIconGrid > div {

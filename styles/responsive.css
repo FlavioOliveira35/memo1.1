@@ -75,13 +75,33 @@
         align-items: stretch;
     }
     /* Estilo dos links/botões dentro do menu mobile. */
-    .collapsible-menu .main-nav > a, .collapsible-menu .user-actions button, .collapsible-menu .user-actions .auth-button {
+    .collapsible-menu .main-nav > a,
+    .collapsible-menu .user-actions button,
+    .collapsible-menu .user-actions .auth-button {
+        display: flex;
+        align-items: center;
+        gap: 15px;
         width: 100%;
         text-align: left;
         padding: 15px 20px;
         border-radius: 0;
         border-bottom: 1px solid #e0d8c8;
-        /* ... outros resetes de estilo ... */
+        font-family: 'Courier Prime', monospace;
+        font-size: 1rem;
+        color: #2c2416;
+        background-color: transparent;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+    }
+
+    .collapsible-menu .main-nav > a:hover,
+    .collapsible-menu .user-actions button:hover {
+        background-color: #e0d8c8;
+    }
+
+    .collapsible-menu .main-nav > a i {
+        width: 20px; /* Garante alinhamento dos ícones */
+        text-align: center;
     }
     .collapsible-menu .category-dropdown .dropdown-content a {
         padding: 15px 20px;
