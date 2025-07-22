@@ -224,9 +224,67 @@
     box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
 }
 
+/* Estilo para formulário de adição rápida (input e botão lado a lado) */
+.add-item-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1; /* Garante que fique acima das linhas do pseudo-elemento */
+}
+
+.add-item-form input[type="text"] {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 2px solid #d2b48c;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Courier Prime', monospace;
+    transition: all 0.3s ease;
+    background: #fff;
+    color: #2c2416;
+}
+
+.add-item-form input[type="text"]:focus {
+    outline: none;
+    border-color: #8b4513;
+    box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
+}
+
+.add-item-form button {
+    padding: 12px 20px;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Courier Prime', monospace;
+    text-transform: uppercase;
+    flex-shrink: 0; /* Impede que o botão encolha */
+    background: #633b06;
+    color: white;
+}
+
+.add-item-form button:hover {
+    background: #633b0680;
+    color: #633b06;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(34, 139, 34, 0.3);
+}
+
 
 /* --- 4. Estilos para Botões de Ação Específicos (Editar, Deletar) --- */
 /* Usados dentro de listas em modais, como na tela de "Gerenciar Temas". */
+
+#managePersonalTabsModalOverlay .add-btn,
+#manageThemeTypesModalOverlay .add-btn {
+    margin-bottom: 20px;
+    width: 100%;
+}
 
 .modal-action-btn {
     padding: 6px 12px;
