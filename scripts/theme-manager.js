@@ -227,47 +227,9 @@ function openPersonalTabEditModal(tabToEdit = null) {
         console.error("Elementos do modal de edição de aba pessoal não encontrados!");
         return;
     }
-    // Popula a paleta de cores.
-    personalTabColorPalette.innerHTML = '';
-    let initialColorId = 'default-yellow';
-    AVAILABLE_POSTIT_COLORS.forEach(color => {
-        const div = document.createElement('div');
-        div.style.cssText = `width:28px;height:28px;background-color:${color.hex};border:2px solid transparent;border-radius:50%;cursor:pointer;transition:all 0.2s ease;box-sizing:border-box;`;
-        div.dataset.colorId = color.id;
-        div.title = color.name;
-        div.onclick = () => {
-            selectedPersonalTabColorInput.value = color.id;
-            // Atualiza o feedback visual da seleção.
-            Array.from(personalTabColorPalette.children).forEach(c => { c.style.borderColor = 'transparent'; c.style.transform = 'scale(1)'; c.style.boxShadow = 'none'; });
-            div.style.borderColor = '#333';
-            div.style.transform = 'scale(1.15)';
-            div.style.boxShadow = '0 0 8px rgba(0,0,0,0.3)';
-        };
-        personalTabColorPalette.appendChild(div);
-    });
 
-    // Popula a grade de ícones.
-    personalTabIconGrid.innerHTML = '';
-    let initialIconClass = 'fa-sticky-note';
-    AVAILABLE_ICONS.forEach(iconClass => {
-        const wrap = document.createElement('div');
-        wrap.style.cssText = "display:flex;align-items:center;justify-content:center;padding:5px;border:2px solid transparent;border-radius:4px;cursor:pointer;transition:all 0.2s ease;";
-        wrap.dataset.iconClass = iconClass;
-        const iEl = document.createElement('i');
-        iEl.className = `fas ${iconClass}`;
-        iEl.style.fontSize = '1.5em';
-        iEl.title = iconClass.replace('fa-', '');
-        wrap.appendChild(iEl);
-        wrap.onclick = () => {
-            selectedPersonalTabIconInput.value = iconClass;
-            Array.from(personalTabIconGrid.children).forEach(c => { c.style.borderColor = 'transparent'; c.style.backgroundColor = 'transparent'; });
-            wrap.style.borderColor = '#333';
-            wrap.style.backgroundColor = 'rgba(0,0,0,0.1)';
-        };
-        personalTabIconGrid.appendChild(wrap);
-    });
-
-    // Preenche os campos se estiver editando, ou os limpa se estiver criando.
+    // --- Preenchimento dos Campos e Definição de Valores Iniciais ---
+    let initialColorId, initialIconClass;
     if (tabToEdit && tabToEdit.id) {
         personalTabEditModalTitle.innerHTML = '<i class="fas fa-edit"></i> Editar Aba';
         editingPersonalTabIdInput.value = tabToEdit.id;
@@ -281,15 +243,47 @@ function openPersonalTabEditModal(tabToEdit = null) {
         initialColorId = 'default-yellow';
         initialIconClass = 'fa-sticky-note';
     }
-
-    // Define o estado visual inicial para a cor e o ícone selecionados.
     selectedPersonalTabColorInput.value = initialColorId;
-    const iColDiv = personalTabColorPalette.querySelector(`div[data-color-id="${initialColorId}"]`);
-    if (iColDiv) { iColDiv.style.borderColor = '#333'; iColDiv.style.transform = 'scale(1.15)'; iColDiv.style.boxShadow = '0 0 8px rgba(0,0,0,0.3)'; }
-
     selectedPersonalTabIconInput.value = initialIconClass;
-    const iIconWrap = personalTabIconGrid.querySelector(`div[data-icon-class="${initialIconClass}"]`);
-    if (iIconWrap) { iIconWrap.style.borderColor = '#333'; iIconWrap.style.backgroundColor = 'rgba(0,0,0,0.1)'; }
+
+
+    // --- Configuração da Paleta de Cores ---
+    personalTabColorPalette.innerHTML = '';
+    AVAILABLE_POSTIT_COLORS.forEach(color => {
+        const div = document.createElement('div');
+        div.style.backgroundColor = color.hex;
+        div.dataset.colorId = color.id;
+        div.title = color.name;
+        if (color.id === initialColorId) {
+            div.classList.add('selected');
+        }
+        div.onclick = () => {
+            selectedPersonalTabColorInput.value = color.id;
+            Array.from(personalTabColorPalette.children).forEach(c => c.classList.remove('selected'));
+            div.classList.add('selected');
+        };
+        personalTabColorPalette.appendChild(div);
+    });
+
+    // --- Configuração da Grade de Ícones ---
+    personalTabIconGrid.innerHTML = '';
+    AVAILABLE_ICONS.forEach(iconClass => {
+        const wrap = document.createElement('div');
+        wrap.dataset.iconClass = iconClass;
+        if (iconClass === initialIconClass) {
+            wrap.classList.add('selected');
+        }
+        const iEl = document.createElement('i');
+        iEl.className = `fas ${iconClass}`;
+        iEl.title = iconClass.replace('fa-', '');
+        wrap.appendChild(iEl);
+        wrap.onclick = () => {
+            selectedPersonalTabIconInput.value = iconClass;
+            Array.from(personalTabIconGrid.children).forEach(c => c.classList.remove('selected'));
+            wrap.classList.add('selected');
+        };
+        personalTabIconGrid.appendChild(wrap);
+    });
 
     personalTabEditModalOverlay.classList.add('active');
     personalTabNameInput.focus();
@@ -858,44 +852,55 @@ if (saveThemeTypeBtn) {
 }
 function openThemeTypeEditModal(themeType = null) {
     if (!themeTypeEditModalOverlay || !themeTypeIconGrid || !themeTypeColorPalette) return;
+
+    // --- Configuração da Grade de Ícones ---
     themeTypeIconGrid.innerHTML = '';
     let initIcon = (themeType?.iconClass && themeType.iconClass.trim() !== '') ? themeType.iconClass : 'fa-folder';
     selectedThemeTypeIconInput.value = initIcon;
+
     AVAILABLE_ICONS.forEach(iCls => {
         const wrap = document.createElement('div');
-        wrap.style.cssText = "display:flex;align-items:center;justify-content:center;padding:5px;border:2px solid transparent;border-radius:4px;cursor:pointer;transition:all 0.2s ease;";
         wrap.dataset.iconClass = iCls;
+        if (iCls === initIcon) {
+            wrap.classList.add('selected');
+        }
         const iEl = document.createElement('i');
         iEl.className = `fas ${iCls}`;
-        iEl.style.fontSize = '1.4em';
         wrap.appendChild(iEl);
+
         wrap.onclick = () => {
             selectedThemeTypeIconInput.value = iCls;
-            Array.from(themeTypeIconGrid.children).forEach(c => { c.style.borderColor = 'transparent'; c.style.backgroundColor = 'transparent'; });
-            wrap.style.borderColor = '#333';
-            wrap.style.backgroundColor = 'rgba(0,0,0,0.1)';
+            // Remove a classe 'selected' de todos os ícones e a adiciona apenas ao clicado.
+            Array.from(themeTypeIconGrid.children).forEach(c => c.classList.remove('selected'));
+            wrap.classList.add('selected');
         };
-        if (iCls === initIcon) { wrap.style.borderColor = '#333'; wrap.style.backgroundColor = 'rgba(0,0,0,0.1)'; }
         themeTypeIconGrid.appendChild(wrap);
     });
+
+    // --- Configuração da Paleta de Cores ---
     themeTypeColorPalette.innerHTML = '';
     let initColor = themeType?.postitColor || 'default-yellow';
     selectedThemeTypeColorInput.value = initColor;
+
     AVAILABLE_POSTIT_COLORS.forEach(color => {
         const cDiv = document.createElement('div');
-        cDiv.style.cssText = `width:28px;height:28px;background-color:${color.hex};border:2px solid transparent;border-radius:50%;cursor:pointer;transition:all 0.2s ease;box-sizing:border-box;`;
+        cDiv.style.backgroundColor = color.hex;
         cDiv.dataset.colorId = color.id;
         cDiv.title = color.name;
+        if (color.id === initColor) {
+            cDiv.classList.add('selected');
+        }
+
         cDiv.onclick = () => {
             selectedThemeTypeColorInput.value = color.id;
-            Array.from(themeTypeColorPalette.children).forEach(c => { c.style.borderColor = 'transparent'; c.style.transform = 'scale(1)'; c.style.boxShadow = 'none'; });
-            cDiv.style.borderColor = '#333';
-            cDiv.style.transform = 'scale(1.15)';
-            cDiv.style.boxShadow = '0 0 8px rgba(0,0,0,0.3)';
+            // Remove a classe 'selected' de todas as cores e a adiciona apenas à clicada.
+            Array.from(themeTypeColorPalette.children).forEach(c => c.classList.remove('selected'));
+            cDiv.classList.add('selected');
         };
-        if (color.id === initColor) { cDiv.style.borderColor = '#333'; cDiv.style.transform = 'scale(1.15)'; cDiv.style.boxShadow = '0 0 8px rgba(0,0,0,0.3)'; }
         themeTypeColorPalette.appendChild(cDiv);
     });
+
+    // --- Preenchimento dos Campos e Exibição do Modal ---
     editingThemeTypeIdInput.value = themeType?.id || '';
     themeTypeNameInputJS.value = themeType?.name || '';
     themeTypeEditModalTitle.innerHTML = `<i class="fas ${themeType ? (initIcon || 'fa-edit') : 'fa-plus'}"></i> ${themeType ? 'Editar' : 'Adicionar'} Tipo de Tema`;

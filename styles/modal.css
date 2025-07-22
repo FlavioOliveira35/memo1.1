@@ -326,6 +326,127 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
+/* --- Estilos para Modais de Edição (Tipo de Tema e Aba Pessoal) --- */
+
+#themeTypeEditModalOverlay .modal-content label,
+#personalTabEditModalOverlay .modal-content label {
+    display: block;
+    margin-bottom: 8px;
+    margin-top: 15px;
+    color: #633b06;
+    font-weight: 700;
+    font-family: 'Courier Prime', monospace;
+    position: relative;
+    z-index: 1;
+}
+
+#themeTypeEditModalOverlay .modal-content input[type="text"],
+#personalTabEditModalOverlay .modal-content input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #d2b48c;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Courier Prime', monospace;
+    background: #fff;
+    color: #2c2416;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+#themeTypeEditModalOverlay .modal-content input[type="text"]:focus,
+#personalTabEditModalOverlay .modal-content input[type="text"]:focus {
+    outline: none;
+    border-color: #8b4513;
+    box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
+}
+
+#themeTypeIconGrid, #personalTabIconGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px;
+    background-color: rgba(210, 180, 140, 0.2);
+    border-radius: 8px;
+    border: 1px solid #d2b48c;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+#themeTypeIconGrid > div, #personalTabIconGrid > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #fff;
+}
+
+#themeTypeIconGrid > div:hover, #personalTabIconGrid > div:hover {
+    background-color: #e0d8c8;
+}
+
+#themeTypeIconGrid > div .fas, #personalTabIconGrid > div .fas {
+    font-size: 1.5em;
+    color: #633b06;
+}
+
+/* Estilo para ícone selecionado */
+#themeTypeIconGrid > div.selected, #personalTabIconGrid > div.selected {
+    border-color: #8b4513;
+    background-color: #f4f1e8;
+    box-shadow: 0 0 8px rgba(139, 69, 19, 0.4);
+    transform: scale(1.05);
+}
+
+
+#themeTypeColorPalette, #personalTabColorPalette {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    background-color: rgba(210, 180, 140, 0.2);
+    border-radius: 8px;
+    border: 1px solid #d2b48c;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+    justify-content: center;
+}
+
+#themeTypeColorPalette > div, #personalTabColorPalette > div {
+    width: 32px;
+    height: 32px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#themeTypeColorPalette > div:hover, #personalTabColorPalette > div:hover {
+    transform: scale(1.1);
+}
+
+/* Estilo para cor selecionada */
+#themeTypeColorPalette > div.selected, #personalTabColorPalette > div.selected {
+    border-color: #8b4513;
+    transform: scale(1.15);
+    box-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
+}
+
+#themeTypeEditModalOverlay .modal-button-group,
+#personalTabEditModalOverlay .modal-button-group {
+    margin-top: 25px;
+}
+
 
 /* --- 5. Animações e Classes Utilitárias --- */
 
